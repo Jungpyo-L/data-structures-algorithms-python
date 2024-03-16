@@ -1,22 +1,57 @@
 class Node:
-    def __init__(self, data=None, next=None):
+    def __init__(self, data=None, next=None, prev=None):
         self.data = data
         self.next = next
-
-class LinkedList:
+        self.prev = prev
+        
+class DoubleLinkedList:
     def __init__(self):
         self.head = None
 
-    def print(self):
+    def print_forward(self):
+        # This method prints list in forward direction. Use node.next
         if self.head is None:
-            print("Linked list is empty")
+            print("Double linked list is empty")
             return
         itr = self.head
-        llstr = ''
+        dllstr = ''
         while itr:
-            llstr += str(itr.data)+' --> ' if itr.next else str(itr.data)
+            dllstr += str(itr.data) +' --> ' if itr.next else str(itr.data)
             itr = itr.next
-        print(llstr)
+        print("link list in forward: ", dllstr)
+
+    def print_backward(self):
+        # Print linked list in reverse direction. Use node.prev for this.
+        if self.head is None:
+            print("Double linke list is empty")
+            return
+        
+        last_node = self.get_last_node()
+        itr = last_node
+        dllstr = ''
+        while itr:
+            # dllstr += ' <-- ' + str(itr.data) if itr.prev else str(itr.data)
+            dllstr += str(itr.data) +' --> ' if itr.prev else str(itr.data)
+            itr = itr.prev
+        print("link list in reverse: ", dllstr)
+    
+    def get_last_node(self):
+        itr = self.head
+        while itr.next:
+            itr = itr.next
+        return itr
+
+    
+    # def print(self):
+    #     if self.head is None:
+    #         print("Linked list is empty")
+    #         return
+    #     itr = self.head
+    #     llstr = ''
+    #     while itr:
+    #         llstr += str(itr.data)+' --> ' if itr.next else str(itr.data)
+    #         itr = itr.next
+    #     print(llstr)
 
     def get_length(self):
         count = 0
@@ -28,12 +63,12 @@ class LinkedList:
         return count
 
     def insert_at_begining(self, data):
-        node = Node(data, self.head)
+        node = Node(data, self.head, None)
         self.head = node
 
     def insert_at_end(self, data):
         if self.head is None:
-            self.head = Node(data, None)
+            self.head = Node(data, None, None)
             return
 
         itr = self.head
@@ -41,7 +76,8 @@ class LinkedList:
         while itr.next:
             itr = itr.next
 
-        itr.next = Node(data, None)
+        itr.next = Node(data, None, itr)
+        # itr.prev = Node(itr.data, itr, None)
 
     def insert_at(self, index, data):
         if index<0 or index>self.get_length():
@@ -55,7 +91,7 @@ class LinkedList:
         itr = self.head
         while itr:
             if count == index - 1:
-                node = Node(data, itr.next)
+                node = Node(data, itr.next, itr)
                 itr.next = node
                 break
 
@@ -107,31 +143,19 @@ class LinkedList:
                 break
             itr = itr.next
             count += 1
-
-
+            
+            
 if __name__ == '__main__':
-    # ll = LinkedList()
-    # ll.insert_values(["banana","mango","grapes","orange"])
-    # ll.insert_at(1,"blueberry")
-    # ll.remove_at(2)
-    # ll.print()
-
-    # ll.insert_values([45,7,12,567,99])
-    # ll.insert_at_end(67)
-    # ll.print()
-    
-    ll = LinkedList()
+    ll = DoubleLinkedList()
     ll.insert_values(["banana","mango","grapes","orange"])
-    ll.print()
+    ll.print_forward()
+    ll.print_backward()
     ll.insert_after_value("mango","apple") # insert apple after mango
-    ll.print()
+    ll.print_forward()
+    ll.print_backward()
     ll.remove_by_value("orange") # remove orange from linked list
-    ll.print()
+    ll.print_forward()
+    ll.print_backward()
     ll.remove_by_value("figs")
-    ll.print()
-    ll.remove_by_value("banana")
-    ll.remove_by_value("mango")
-    ll.remove_by_value("apple")
-    ll.remove_by_value("grapes")
-    ll.print()
-
+    ll.print_forward()
+    ll.print_backward()
