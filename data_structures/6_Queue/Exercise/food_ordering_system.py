@@ -36,6 +36,8 @@ def serve_orders():
     time.sleep(1)
     while True:
         order = food_order_queue.dequeue()
+        if order is None:
+            break
         print("Now serving: ",order)
         time.sleep(2)
 
@@ -46,3 +48,6 @@ if __name__ == '__main__':
 
     t1.start()
     t2.start()
+    
+    t1.join()
+    t2.join()

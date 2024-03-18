@@ -5,6 +5,8 @@ def swap(a, b, arr):
         tmp = arr[a]
         arr[a] = arr[b]
         arr[b] = tmp
+    # other method for python
+    #arr[a], arr[b] = arr[b], arr[a]
 
 def quick_sort(elements, start, end):
     if start < end:
